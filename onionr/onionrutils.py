@@ -421,3 +421,6 @@ class OnionrUtils:
                     return False
         except:
             return False
+
+    def token(self, size = 32):
+        return binascii.hexlify(os.urandom(size))

@@ -19,7 +19,7 @@ and code to operate as a daemon, getting commands from the command queue databas
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
-import sqlite3, requests, hmac, hashlib, time, sys, os, math, logger, urllib.parse, base64, binascii, random, json, secrets
+import sqlite3, requests, hmac, hashlib, time, sys, os, math, logger, urllib.parse, base64, binascii, random, json
 import core, onionrutils, onionrcrypto, netcontroller, onionrproofs, btc, config, onionrplugins as plugins
 
 class OnionrCommunicate:
@@ -120,7 +120,7 @@ class OnionrCommunicate:
                 elif command[0] == 'checkCallbacks':
                     try:
                         data = json.loads(command[1])
-                        
+
                         logger.info('Checking for callbacks with connection %s...' % data['id'])
 
                         self.check_callbacks(data, config.get('dc_execcallbacks', True))
@@ -257,7 +257,7 @@ class OnionrCommunicate:
         try:
             # does not need to be secure random, only used for keeping track of async responses
             # Actually, on second thought, it does need to be secure random. Otherwise, if it is predictable, someone could trigger arbitrary callbacks that have been saved on the local node, wrecking all kinds of havoc. Better just to keep it secure random.
-            identifier = secrets.token_hex(32)
+            identifier = self._utils.token(32)
             if 'id' in data:
                 identifier = data['id']
 
