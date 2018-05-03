@@ -171,15 +171,19 @@ class OnionrTests(unittest.TestCase):
         if not plugins.exists('test'):
             os.makedirs(plugins.get_plugins_folder('test'))
             with open(plugins.get_plugins_folder('test') + '/main.py', 'a') as main:
-                main.write("print('Running')\n\ndef on_test(pluginapi, data = None):\n    print('received test event!')\n    return True\n\ndef on_start(pluginapi, data = None):\n    print('start event called')\n\ndef on_stop(pluginapi, data = None):\n    print('stop event called')\n\ndef on_enable(pluginapi, data = None):\n    print('enable event called')\n\ndef on_disable(pluginapi, data = None):\n    print('disable event called')\n")
+                main.write("print('Running')\n\ndef on_test(pluginapi, data = None):\n    print('received test event!')\n    print('thread test started...')\n    import time\n    time.sleep(1)\n    \n    return True\n\ndef on_start(pluginapi, data = None):\n    print('start event called')\n\ndef on_stop(pluginapi, data = None):\n    print('stop event called')\n\ndef on_enable(pluginapi, data = None):\n    print('enable event called')\n\ndef on_disable(pluginapi, data = None):\n    print('disable event called')\n")
             plugins.enable('test')
 
 
         plugins.start('test')
-        if not events.call(plugins.get_plugin('test'), 'test'):
+        if not events.call(plugins.get_plugin('test'), 'enable'):
             self.assertTrue(False)
 
-        events.event('test', data = {'tests': self})
+        logger.debug('preparing to start thread', timestamp = False)
+        thread = events.event('test', data = {'tests': self})
+        logger.debug('thread running...', timestamp = False)
+        thread.join()
+        logger.debug('thread finished.', timestamp = False)
 
         self.assertTrue(True)
 

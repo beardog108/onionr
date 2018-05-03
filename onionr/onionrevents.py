@@ -19,15 +19,16 @@
 '''
 
 import config, logger, onionrplugins as plugins, onionrpluginapi as pluginapi
+from threading import Thread
 
 def get_pluginapi(onionr, data):
     return pluginapi.pluginapi(onionr, data)
 
-def event(event_name, data = {}, onionr = None):
+def __event_caller(event_name, data = {}, onionr = None):
     '''
-        Calls an event on all plugins (if defined)
+        DO NOT call this function, this is for threading code only.
+        Instead, call onionrevents.event
     '''
-
     for plugin in plugins.get_enabled_plugins():
         try:
             call(plugins.get_plugin(plugin), event_name, data, get_pluginapi(onionr, data))
@@ -37,6 +38,19 @@ def event(event_name, data = {}, onionr = None):
         except Exception as e:
             logger.warn('Event \"' + event_name + '\" failed for plugin \"' + plugin + '\".')
             logger.debug(str(e))
+
+
+def event(event_name, data = {}, onionr = None, threaded = True):
+    '''
+        Calls an event on all plugins (if defined)
+    '''
+
+    if threaded:
+        thread = Thread(target = __event_caller, args = (event_name, data, onionr))
+        thread.start()
+        return thread
+    else:
+        __event_caller(event_name, data, onionr)
 
 def call(plugin, event_name, data = None, pluginapi = None):
     '''
