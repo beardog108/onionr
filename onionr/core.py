@@ -17,10 +17,9 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
-import sqlite3, os, sys, time, math, base64, tarfile, getpass, simplecrypt, hashlib, nacl, logger, json
+import sqlite3, os, sys, time, math, base64, tarfile, getpass, simplecrypt, hashlib, nacl, logger, json, netcontroller
 #from Crypto.Cipher import AES
 #from Crypto import Random
-import netcontroller
 
 import onionrutils, onionrcrypto, btc, onionrevents as events
 
@@ -547,7 +546,26 @@ class Core:
         conn.close()
         return
 
-    def getBlockList(self, unsaved=False):
+    def handle_direct_connection(self, data):
+        '''
+            Handles direct messages
+        '''
+        try:
+            data = json.loads(data)
+
+            # TODO: Determine the sender, verify, etc
+            if ('callback' in data) and (data['callback'] is True):
+                # then this is a response to the message we sent earlier
+                self.daemonQueueAdd('checkCallbacks', json.dumps(data))
+            else:
+                # then we should handle it and respond accordingly
+                self.daemonQueueAdd('incomingDirectConnection', json.dumps(data))
+        except Exception as e:
+            logger.warn('Failed to handle incoming direct message: %s' % str(e))
+
+        return
+
+    def getBlockList(self, unsaved = False):
         '''
             Get list of our blocks
         '''

@@ -198,6 +198,8 @@ class API:
                 resp = Response(self._utils.getBlockDBHash())
             elif action == 'getBlockHashes':
                 resp = Response(self._core.getBlockList())
+            elif action == 'directMessage':
+                resp = Response(self._core.handle_direct_connection(data))
             elif action == 'announce':
                 if data != '':
                     # TODO: require POW for this
