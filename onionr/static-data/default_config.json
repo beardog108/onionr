@@ -13,6 +13,10 @@
             "color": true
         }
     },
+    "i2p":{
+	"host": true,
+	"connect": true
+     },
     "allocations":{
         "disk": 1000000000,
         "netTotal": 1000000000
