@@ -13,6 +13,8 @@ Major work in progress.
 
 **Roadmap/features:**
 
+Check the [GitHub Project](https://github.com/beardog108/onionr/projects/1) to see progress towards the alpha release.
+
 * [X] Fully p2p/decentralized, no trackers or other single points of failure
 * [X] High level of anonymity
 * [ ] End to end encryption where applicable
