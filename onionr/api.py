@@ -199,7 +199,7 @@ class API:
             elif action == 'getDBHash':
                 resp = Response(self._utils.getBlockDBHash())
             elif action == 'getBlockHashes':
-                resp = Response(self._core.getBlockList())
+                resp = Response(self._core.getBlockList().split('\n'))
             elif action == 'directMessage':
                 resp = Response(self._core.handle_direct_connection(data))
             elif action == 'announce':
@@ -294,7 +294,7 @@ class API:
 
         if not self.i2pEnabled and request.host.endswith('i2p'):
             abort(403)
-            
+
         if not self._developmentMode:
             try:
                 request.headers['X-Requested-With']
