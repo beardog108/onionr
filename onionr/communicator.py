@@ -694,7 +694,11 @@ class OnionrCommunicate:
         '''We use socks5h to use tor as DNS'''
 
         if peer.endswith('onion'):
-            proxies = {'http': 'socks5h://127.0.0.1:' + str(socksPort), 'https': 'socks5h://127.0.0.1:' + str(socksPort)}
+            try:
+                proxies = {'http': 'socks5h://127.0.0.1:' + str(socksPort), 'https': 'socks5h://127.0.0.1:' + str(socksPort)}
+            except ValueError:
+                proxies = {'http': 'socks5://127.0.0.1:' + str(socksPort), 'https': 'socks5://127.0.0.1:' + str(socksPort)}
+
         elif peer.endswith('b32.i2p'):
             proxies = {'http': 'http://127.0.0.1:4444'}
         headers = {'user-agent': 'PyOnionr'}
