@@ -677,7 +677,7 @@ class OnionrCommunicate:
             Performs a request to a peer through Tor or i2p (currently only Tor)
         '''
 
-        if not peer.endswith('.onion') and not peer.endswith('.onion/') and not peer.endswith('.b32.i2p')::
+        if not peer.endswith('.onion') and not peer.endswith('.onion/') and not peer.endswith('.b32.i2p'):
             raise PeerError('Currently only Tor/i2p .onion/.b32.i2p peers are supported. You must manually specify .onion/.b32.i2p')
 
         if len(self._core.hsAdder.strip()) == 0:
