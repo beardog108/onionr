@@ -575,7 +575,7 @@ class Onionr:
 
                 # count stats
                 'div2' : True,
-                'Known Peers Count' : str(len(self.onionrCore.listPeers() - 1)),
+                'Known Peers Count' : str(len(self.onionrCore.listPeers()) - 1),
                 'Enabled Plugins Count' : str(len(config.get('plugins')['enabled'])) + ' / ' + str(len(os.listdir('data/plugins/')))
             }
 
