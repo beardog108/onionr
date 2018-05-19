@@ -714,6 +714,7 @@ class OnionrCommunicate:
                     r = requests.get(url, headers=headers, proxies=proxies, allow_redirects=False, timeout=(15, 30))
                 except ValueError:
                     proxies = {'http': 'socks5://127.0.0.1:' + str(socksPort), 'https': 'socks5://127.0.0.1:' + str(socksPort)}
+                    r = requests.get(url, headers=headers, proxies=proxies, allow_redirects=False, timeout=(15, 30))
                 retData = r.text
         except requests.exceptions.RequestException as e:
             logger.debug("%s failed with peer %s" % (action, peer))
