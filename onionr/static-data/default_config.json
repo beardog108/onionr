@@ -15,7 +15,8 @@
     },
     "i2p":{
 	"host": false,
-	"connect": true
+    "connect": true,
+    "ownAddr": ""
      },
     "allocations":{
         "disk": 1000000000,

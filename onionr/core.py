@@ -17,7 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
-import sqlite3, os, sys, time, math, base64, tarfile, getpass, simplecrypt, hashlib, nacl, logger, json, netcontroller, math
+import sqlite3, os, sys, time, math, base64, tarfile, getpass, simplecrypt, hashlib, nacl, logger, json, netcontroller, math, config
 #from Crypto.Cipher import AES
 #from Crypto import Random
 
@@ -111,6 +111,8 @@ class Core:
         '''
             Add an address to the address database (only tor currently)
         '''
+        if address == config.get('i2p')['ownAddr']:
+            return False
         if self._utils.validateID(address):
             conn = sqlite3.connect(self.addressDB)
             c = conn.cursor()

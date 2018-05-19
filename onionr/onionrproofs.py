@@ -18,7 +18,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-import nacl.encoding, nacl.hash, nacl.utils, time, math, threading, binascii, logger, sys
+import nacl.encoding, nacl.hash, nacl.utils, time, math, threading, binascii, logger, sys, base64
 import core
 
 class POW:
@@ -45,6 +45,7 @@ class POW:
             endTime = math.floor(time.time())
             if self.reporting:
                 logger.info('Found token ' + token, timestamp=True)
+                logger.info('rand value: ' + base64.b64encode(rand).decode())
                 logger.info('took ' + str(endTime - startTime) + ' seconds', timestamp=True)
             self.result = (token, rand)
 

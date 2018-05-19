@@ -616,7 +616,13 @@ class OnionrCommunicate:
         return
 
     def removeBlockFromProcessingList(self, block):
-        return block in blocksProcessing
+        '''Remove a block from the processing list'''
+        try:
+            self.blocksProcessing.remove(block)
+        except ValueError:
+            return False
+        else:
+            return True
 
     def downloadBlock(self, hash, peerTries=3):
         '''

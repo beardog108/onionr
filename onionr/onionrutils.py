@@ -109,7 +109,10 @@ class OnionrUtils:
                     except IndexError:
                         logger.warn('No pow token')
                         continue
-                    powHash = self._core._crypto.blake2bHash(base64.b64decode(key[1]) + self._core._crypto.blake2bHash(key[0].encode()))
+                    #powHash = self._core._crypto.blake2bHash(base64.b64decode(key[1]) + self._core._crypto.blake2bHash(key[0].encode()))
+                    value = base64.b64decode(key[1])
+                    hashedKey = self._core._crypto.blake2bHash(key[0])
+                    powHash = self._core._crypto.blake2bHash(value + hashedKey)
                     try:
                         powHash = powHash.encode()
                     except AttributeError:
