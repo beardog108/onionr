@@ -14,7 +14,7 @@
         }
     },
     "i2p":{
-	"host": true,
+	"host": false,
 	"connect": true
      },
     "allocations":{

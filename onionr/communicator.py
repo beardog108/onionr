@@ -694,10 +694,7 @@ class OnionrCommunicate:
         '''We use socks5h to use tor as DNS'''
 
         if peer.endswith('onion'):
-            try:
-                proxies = {'http': 'socks5h://127.0.0.1:' + str(socksPort), 'https': 'socks5h://127.0.0.1:' + str(socksPort)}
-            except ValueError:
-                proxies = {'http': 'socks5://127.0.0.1:' + str(socksPort), 'https': 'socks5://127.0.0.1:' + str(socksPort)}
+            proxies = {'http': 'socks5h://127.0.0.1:' + str(socksPort), 'https': 'socks5h://127.0.0.1:' + str(socksPort)}
 
         elif peer.endswith('b32.i2p'):
             proxies = {'http': 'http://127.0.0.1:4444'}
@@ -713,7 +710,10 @@ class OnionrCommunicate:
             else:
                 self.peerStatus[peer] = action
                 logger.debug('Contacting %s on port %s' % (peer, str(socksPort)))
-                r = requests.get(url, headers=headers, proxies=proxies, allow_redirects=False, timeout=(15, 30))
+                try:
+                    r = requests.get(url, headers=headers, proxies=proxies, allow_redirects=False, timeout=(15, 30))
+                except ValueError:
+                    proxies = {'http': 'socks5://127.0.0.1:' + str(socksPort), 'https': 'socks5://127.0.0.1:' + str(socksPort)}
                 retData = r.text
         except requests.exceptions.RequestException as e:
             logger.debug("%s failed with peer %s" % (action, peer))
