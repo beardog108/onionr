@@ -490,7 +490,7 @@ class OnionrCommunicate:
                 if lastDB != currentDB:
                     logger.debug('Fetching hash from %s - %s current hash.' % (str(i), currentDB))
                     try:
-                        blockList.append(self.performGet('getBlockHashes', i))
+                        blockList.extend(self.performGet('getBlockHashes', i).split('\n'))
                     except TypeError:
                         logger.warn('Failed to get data hash from %s' % str(i))
                         self.peerData[i]['failCount'] -= 1
