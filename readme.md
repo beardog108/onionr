@@ -8,7 +8,7 @@ Anonymous P2P platform, using Tor & I2P.
 
 Major work in progress.
 
-***THIS SOFTWARE IS NOT USABLE OR SAFE YET.***
+***THIS SOFTWARE IS NOT USABLE OR SECURE YET.***
 
 
 **Roadmap/features:**
