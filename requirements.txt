@@ -186,8 +186,8 @@ six==1.12.0 \
     --hash=sha256:3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c \
     --hash=sha256:d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73 \
     # via pynacl
-stem==1.7.1 \
-    --hash=sha256:c9eaf3116cb60c15995cbd3dec3a5cbc50e9bb6e062c4d6d42201e566f498ca2
+stem==1.8.0 \
+    --hash=sha256:a0b48ea6224e95f22aa34c0bc3415f0eb4667ddeae3dfb5e32a6920c185568c2
 streamedrequests==1.0.0 \
     --hash=sha256:1d9d07394804a6e1fd66bde74a804e71cab98e6920053865574a459f1cf7d3b7
 toomanyobjs==1.1.0 \
