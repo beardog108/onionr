@@ -52,9 +52,9 @@ markupsafe==1.1.1 \
     # via mako
 pdoc3==0.7.4 \
     --hash=sha256:1a9393d6b1e8c2976c0e1a8d0b897ba5e5ea9515058470422cf57ee54293ab05
-pip-tools==4.5.0 \
-    --hash=sha256:144fbd764e88f761246f832370721dccabfefbbc4ce3aa8468f6802ac6519217 \
-    --hash=sha256:61455cfdaa183930eefd8259f393812d94005fb9f8249edb640ed1b66f678116
+pip-tools==4.5.1 \
+    --hash=sha256:693f30e451875796b1b25203247f0b4cf48a4c4a5ab7341f4f33ffd498cdcc98 \
+    --hash=sha256:be9c796aa88b2eec5cabf1323ba1cb60a08212b84bfb75b8b4037a8ef8cb8cb6
 six==1.14.0 \
     --hash=sha256:236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a \
     --hash=sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c \
