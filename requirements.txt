@@ -54,9 +54,9 @@ filenuke==0.0.0 \
     --hash=sha256:147011c0125121469cae0a8a7f4df399f470e54aa29a08f2d2c099bf0118dcee \
     --hash=sha256:c55535dcecfdb27c5f4ce664d46e115950b5429763b5db75c198053646177f8f \
     # via -r requirements.in
-flask==1.1.1 \
-    --hash=sha256:13f9f196f330c7c2c5d7a5cf91af894110ca0215ac051b5844701f2bfd934d52 \
-    --hash=sha256:45eb5a6fd193d6cf7e0cf5d8a5b31f83d5faae0293695626f539a823e93b13f6 \
+flask==1.1.2 \
+    --hash=sha256:4efa1ae2d7c9865af48986de8aeb8504bf32c7f3d6fdc9353d34b21f4b127060 \
+    --hash=sha256:8a4fdd8936eba2512e9c85df320a37e694c93945b33ef33c89946a340a238557 \
     # via -r requirements.in
 gevent==1.4.0 \
     --hash=sha256:0774babec518a24d9a7231d4e689931f31b332c4517a771e532002614e270a64 \
