@@ -53,8 +53,8 @@ markupsafe==1.1.1 \
     --hash=sha256:e249096428b3ae81b08327a63a485ad0878de3fb939049038579ac0ef61e17e7 \
     --hash=sha256:e8313f01ba26fbbe36c7be1966a7b7424942f670f38e666995b88d012765b9be \
     # via mako
-pdoc3==0.7.5 \
-    --hash=sha256:ebca75b7fcf23f3b4320abe23339834d3f08c28517718e9d29e555fc38eeb33c \
+pdoc3==0.8.0 \
+    --hash=sha256:793e7a83db96fc7a992bc593265a0963d0bdf7d66a1dd5d443a6c6ea885b73be \
     # via -r requirements-dev.in
 pip-tools==4.5.1 \
     --hash=sha256:693f30e451875796b1b25203247f0b4cf48a4c4a5ab7341f4f33ffd498cdcc98 \
