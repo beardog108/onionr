@@ -8,8 +8,8 @@ click==7.0 \
     --hash=sha256:2335065e6395b9e67ca716de5f7526736bfa6ceead690adf616d925bdc622b13 \
     --hash=sha256:5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7 \
     # via pip-tools
-helium==3.0.2 \
-    --hash=sha256:0413dffb50a5e8e6c05bb3fc6bc458992a72d310b2132451968caee93b022048 \
+helium==3.0.3 \
+    --hash=sha256:3cdee757998e9ceecc5694112ea107d678aeb675af7ecbca9685817cbf4c20df \
     # via -r requirements-dev.in
 mako==1.1.1 \
     --hash=sha256:2984a6733e1d472796ceef37ad48c26f4a984bb18119bb2dbc37a44d8f6e75a4 \
