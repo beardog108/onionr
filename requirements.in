@@ -14,4 +14,4 @@ psutil==5.7.2
 filenuke==0.0.0
 mimcvdf==1.1.0
 watchdog==0.10.3
-ujson==3.0.0
+ujson==3.1.0
