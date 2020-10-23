@@ -228,9 +228,9 @@ unpaddedbase32==0.2.0 \
     --hash=sha256:4aacee75f8fd6c8cf129842ecba45ca59c11bfb13dae19d86f32b48fa3715403 \
     --hash=sha256:b7b780c31d27d55e66abf6c221216a35690ee8892c2daacff7f2528e229bd9c3 \
     # via -r requirements.in
-urllib3==1.25.10 \
-    --hash=sha256:91056c15fa70756691db97756772bb1eb9678fa585d9184f24534b100dc60f4a \
-    --hash=sha256:e7983572181f5e1522d9c98453462384ee92a0be7fac5f1413a1e35c56cc0461 \
+urllib3==1.25.11 \
+    --hash=sha256:8d7eaa5a82a1cac232164990f04874c594c9453ec55eef02eab885aa02fc17a2 \
+    --hash=sha256:f5321fbe4bf3fefa0efd0bfe7fb14e90909eb62a48ccda331726b4319897dd5e \
     # via -r requirements.in, requests
 watchdog==0.10.3 \
     --hash=sha256:4214e1379d128b0588021880ccaf40317ee156d4603ac388b9adcf29165e0c04 \
