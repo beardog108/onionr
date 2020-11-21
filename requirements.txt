@@ -232,8 +232,8 @@ urllib3==1.25.11 \
     --hash=sha256:8d7eaa5a82a1cac232164990f04874c594c9453ec55eef02eab885aa02fc17a2 \
     --hash=sha256:f5321fbe4bf3fefa0efd0bfe7fb14e90909eb62a48ccda331726b4319897dd5e \
     # via -r requirements.in, requests
-watchdog==0.10.3 \
-    --hash=sha256:4214e1379d128b0588021880ccaf40317ee156d4603ac388b9adcf29165e0c04 \
+watchdog==0.10.4 \
+    --hash=sha256:e38bffc89b15bafe2a131f0e1c74924cf07dcec020c2e0a26cccd208831fcd43 \
     # via -r requirements.in
 werkzeug==0.15.5 \
     --hash=sha256:87ae4e5b5366da2347eb3116c0e6c681a0e939a33b2805e2c0cbd282664932c4 \
