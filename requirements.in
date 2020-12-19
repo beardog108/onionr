@@ -10,7 +10,7 @@ unpaddedbase32==0.2.0
 streamedrequests==1.0.3
 toomanyobjs==1.1.0
 niceware==0.2.1
-psutil==5.7.3
+psutil==5.8.0
 filenuke==0.0.0
 watchdog==1.0.1
 ujson==4.0.1
