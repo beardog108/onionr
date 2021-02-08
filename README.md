@@ -21,7 +21,7 @@
 | [Docs](#documentation)/[web copy](https://beardog108.github.io/onionr/)               | [Get involved](#help-out)  | [Onionr.net](https://onionr.net/)/[.onion](http://onionrbak72t5zhbzuey2fdkpczlvhowgcpqc6uoyrd3uxztzxwz5cyd.onion/)                  |
 
 
-<hr>
+---
 
 **The main repository for this software is at https://git.VoidNet.tech/kev/onionr/**
 
@@ -30,19 +30,25 @@ Mirrors: [Github](https://github.com/beardog108/onionr), [Gitlab](https://gitlab
 
 Onionr ("Onion Relay") is a decentralized/distributed peer-to-peer communication network, designed to be anonymous and resistant to (meta)data analysis, spam, and corruption.
 
-Onionr stores data in independent packages referred to as 'blocks'. The blocks are distributed to all interested nodes. Blocks and user IDs cannot be easily proven to have been created by a particular user. Even if there is enough evidence to believe that a specific user created a block, nodes still operate behind Tor and as such cannot be trivially unmasked. Anonymity is achieved by a stateless network, with no given indication of what node a block originates from. In fact, since one is not required to participate in routing or storage to insert a message, blocks often do not originate from any identifiable node.
+Onionr gives the individual the ability to speak freely, without fear of surveillance and censorship.
+
+---
+
+Onionr stores data in independent packages referred to as 'blocks'. The blocks are distributed to all nodes interested in their data type. Blocks and user IDs cannot be easily proven to have been created by a particular user. Even if there is enough evidence to believe that a specific user created a block, nodes still operate behind Tor and as such cannot be trivially unmasked. Anonymity is achieved by a stateless network, with no given indication of what node a block originates from. In fact, since one is not required to participate in routing or storage to insert a message, blocks often do not originate from any identifiable node.
+
+Onionr works primarily via epidemic/gossip style routing, with message delivery taking roughly log<sub>F</sub>(N) cycles where F is the number of nodes to send a message to each cycle and N is the number of connected nodes. So a network of 100 million nodes can deliver messages in a few minutes even with high packet loss and malfunctioning nodes.
 
 Through message mixing and key privacy, it is intended to be nigh impossible to discover the identity of a message creator or recipient. Via long-term traffic analysis, a well funded adversary may discover the most probable node(s) to be creating a set of related blocks, however doing so would only lead them to a node behind Tor. As the first node that a block appears on is almost always not the creator of the block, there is plausible deniability regarding the true creator of the block.
-
-Onionr gives the individual the ability to speak freely, without fear of surveillance and censorship.
 
 Users are identified by ed25519/curve25519 public keys, which can be used to sign blocks or send encrypted data.
 
 Onionr can be used for mail, as a social network, instant messenger, file sharing software, or for encrypted group discussion.
 
-Due to the nature of anonymity, the graph as implemented in this reference network is dense, undirected, cyclic and can be disconnected. As a result, current scalability is poor but sufficient for high latency communications. As the need arises isolated stream solutions may be implemented (in a manner similar to described in the Bitmessage whitepaper). Since Onionr is technically just a data format, any routing scheme can be used to pass messages.
+Due to the nature of anonymity, the graph as implemented in this reference network is dense, undirected, cyclic and can be disconnected. Since Onionr is technically just a data format, any routing scheme can be used to pass messages.
 
 The whitepaper is available [here](docs/whitepaper.md).
+
+---
 
 ## Main Features
 
@@ -57,9 +63,9 @@ Onionr ships with various application plugins ready for use out of the box:
 
 Currently usable:
 
-* Mail
-* Public anonymous chat/message board
-* Simple webpage hosting - Will be greatly extended
+* 📨 Mail
+* 💬 Public anonymous chat/message board
+* 📃 Simple webpage hosting - Will be greatly extended
 * File sharing (Work in progress)
 
 Not yet usable:
@@ -156,7 +162,7 @@ Donating at least $3 gets you cool Onionr stickers. Get in touch if you want the
 
 * USD (Card/Paypal (no account required)): [Ko-Fi](https://www.ko-fi.com/beardogkf)
 
-* [Indiegogo](https://igg.me/at/onionr/x#/)
+* Sign up for [privacy.com (refferal link)](https://privacy.com/join/FNNDF) to protect your personal information when contributing or shopping elsewhere, we both get $5 USD.
 
 * Sign up for [privacy.com (refferal link)](https://privacy.com/join/FNNDF) to protect your personal information when contributing or shopping elsewhere, we both get $5 USD.
 
