@@ -1,20 +1,20 @@
 """
 Onionr - Private P2P Communication
 
-Gossip plugin server, multiplexing using gevent
+Gossip plugin server, multiplexing using selectors
 """
 import os
 import sys
-
 
 import selectors
 import socket
 from time import sleep
 
-import filepaths
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 from commands import GossipCommands  # noqa
 import commandhandlers
+
+from constants import SERVER_SOCKET
 """
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -60,27 +60,51 @@ def start_server(shared_state):
                 conn.sendall(b'PONG')
             elif cmd == GossipCommands.EXIT:
                 do_close(conn, b'BYE')
+            elif cmd == GossipCommands.PUT_BLOCK:
+                conn.sendall(
+                    commandhandlers.put_block(
+                        shared_state.get_by_string('SafeDB'), data
+                    )
+                )
+            elif cmd == GossipCommands.GET_BLOCK:
+                conn.sendall(
+                    commandhandlers.get_block(
+                        shared_state.get_by_string('SafeDB'), data))
             elif cmd == GossipCommands.LIST_BLOCKS_BY_TYPE:
                 conn.sendall(
                     commandhandlers.list_blocks_by_type(
                         shared_state.get_by_string('SafeDB'), data))
+            elif cmd == GossipCommands.LIST_BLOCKS_BY_TYPE_OFFSET:
+                conn.sendall(
+                    commandhandlers.list_blocks_by_type_and_offset(
+                        shared_state.get_by_string('SafeDB'), data)
+                )
             elif cmd == GossipCommands.CHECK_HAS_BLOCK:
                 conn.sendall(
                     commandhandlers.handle_check_block(
                         shared_state.get_by_string('SafeDB'), data))
+            elif cmd == GossipCommands.PEER_EXCHANGE:
+                conn.sendall(
+                    commandhandlers.peer_exchange(
+                        shared_state.get_by_string('TorGossipPeers'), data))
+            elif cmd == GossipCommands.ANNOUNCE_PEER:
+                conn.sendall(
+                    commandhandlers.announce_peer(
+                        shared_state.get_by_string('TorGossipPeers'), data)
+                    )
             else:
                 conn.sendall(b'Unknown ' + str(cmd).encode('utf-8'))
         else:
             do_close(conn)
 
     sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-    socket_file = filepaths.identifyhome.identify_home() + "torgossip.sock"
+
     try:
-        os.remove(socket_file)
+        os.remove(SERVER_SOCKET)
     except FileNotFoundError:
         pass
 
-    sock.bind(socket_file)
+    sock.bind(SERVER_SOCKET)
     sock.listen(100)
     sock.setblocking(False)
     sel.register(sock, selectors.EVENT_READ, accept)
@@ -90,5 +114,3 @@ def start_server(shared_state):
         for key, mask in events:
             callback = key.data
             callback(key.fileobj, mask)
-if __name__ == "__main__":
-    start_server()

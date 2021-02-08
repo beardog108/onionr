@@ -164,8 +164,6 @@ Donating at least $3 gets you cool Onionr stickers. Get in touch if you want the
 
 * Sign up for [privacy.com (refferal link)](https://privacy.com/join/FNNDF) to protect your personal information when contributing or shopping elsewhere, we both get $5 USD.
 
-* Sign up for [privacy.com (refferal link)](https://privacy.com/join/FNNDF) to protect your personal information when contributing or shopping elsewhere, we both get $5 USD.
-
 Note: probably not tax deductible
 
 # Security

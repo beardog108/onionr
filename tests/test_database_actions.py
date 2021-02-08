@@ -17,7 +17,7 @@ from coredb import keydb
 class OnionrTests(unittest.TestCase):
 
     def test_address_add(self):
-        testAddresses = ['facebookcorewwwi.onion', '56kmnycrvepfarolhnx6t2dvmldfeyg7jdymwgjb7jjzg47u2lqw2sad.onion', '5bvb5ncnfr4dlsfriwczpzcvo65kn7fnnlnt2ln7qvhzna2xaldq.b32.i2p']
+        testAddresses = ['56kmnycrvepfarolhnx6t2dvmldfeyg7jdymwgjb7jjzg47u2lqw2sad.onion', 'ao34zusas5oocjllkh6uounorhtujyep4ffwz4k4r7qkxie5otdiwqad.onion']
         for address in testAddresses:
             keydb.addkeys.add_address(address)
         dbAddresses = keydb.listkeys.list_adders()
@@ -35,7 +35,7 @@ class OnionrTests(unittest.TestCase):
             self.assertNotIn(address, dbAddresses)
 
     def test_address_info(self):
-        adder = 'nytimes3xbfgragh.onion'
+        adder = 'ao34zusas5oocjllkh6uounorhtujyep4ffwz4k4r7qkxie5otdiwqad.onion'
         keydb.addkeys.add_address(adder)
         self.assertNotEqual(keydb.transportinfo.get_address_info(adder, 'success'), 1000)
         keydb.transportinfo.set_address_info(adder, 'success', 1000)

@@ -24,7 +24,7 @@ from utils import identifyhome
 import safedb
 import blockio
 from blockio.clean.cleanblocklistentries import clean_block_list_entries
-
+from blockio import subprocgenerate
 
 def _remove_db(path):
     try:
@@ -34,6 +34,19 @@ def _remove_db(path):
 
 
 class TestBlockIO(unittest.TestCase):
+
+    def test_subproc_generate(self):
+        db_file = identifyhome.identify_home() + 'test.db'
+        db = safedb.SafeDB(db_file)
+
+        bl: 'Kasten' = subprocgenerate.vdf_block(b"test", "txt", 10)
+
+        self.assertEqual(b"test", bl.data)
+        self.assertEqual("txt", bl.get_data_type())
+        self.assertEqual(330, bl.get_metadata()['rds'])
+
+        db.close()
+        _remove_db(db_file)
 
     def test_list_all_blocks(self):
         db_file = identifyhome.identify_home() + 'test.db'

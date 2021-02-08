@@ -27,6 +27,8 @@ from onionrutils import localcommand
 def test_own_node(test_manager):
     if config.get('general.security_level', 0) > 0 or not config.get('transports.tor', True):
         return
+    if config.get('runtests.skip_slow', False):
+        return
     socks_port = localcommand.local_command('/gettorsocks')
     if config.get('general.security_level', 0) > 0:
         return

@@ -49,6 +49,9 @@
         "disabled": [],
         "enabled": []
     },
+    "runtests": {
+        "skip_slow": false
+    },
     "security": {
         "encrypt_database": false
     },

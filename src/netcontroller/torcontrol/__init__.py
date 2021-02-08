@@ -93,6 +93,10 @@ class NetController:
                 if 'bootstrapped 100' in line.decode().lower():
                     logger.info(line.decode(), terminal=True)
                     break
+                elif 'asking for networkstatus consensus' in line.decode().lower():
+                    logger.warn(
+                        "Tor has to load consensus, this should be faster next time," +
+                        " unless Onionr data is deleted.", terminal=True)
                 elif 'opening socks listener' in line.decode().lower():
                     logger.debug(line.decode().replace('\n', ''))
                 else:

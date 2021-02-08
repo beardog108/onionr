@@ -98,6 +98,9 @@ var getStats = function(){
             connectedNodes = stats['connectedNodes'].split('\n')
             document.getElementById('connectedNodesIframe').srcdoc = '<pre>'
             for (x = 0; x < connectedNodes.length; x++){
+                if (! x){
+                    continue
+                }
                 document.getElementById('connectedNodesIframe').srcdoc += '🧅 ' + connectedNodes[x] + '\n'
             }
             document.getElementById('connectedNodesIframe').srcdoc += '</pre>'

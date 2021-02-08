@@ -7,6 +7,8 @@ import sys
 import platform
 import signal
 from threading import Thread
+from threading import enumerate as thread_enumerate
+import traceback
 
 from stem.connection import IncorrectPassword
 import stem
@@ -16,6 +18,7 @@ from deadsimplekv import DeadSimpleKV
 import psutil
 
 import config
+from netcontroller.torcontrol import onionservice, torcontroller
 import onionrstatistics
 from onionrstatistics import serializeddata
 import apiservers
@@ -44,21 +47,22 @@ from sneakernet import sneakernet_import_thread
 from onionrstatistics.devreporting import statistics_reporter
 from setupkvvars import setup_kv
 from communicatorutils.housekeeping import clean_blocks_not_meeting_pow
+from blockcreatorqueue import PassToSafeDB
 from .spawndaemonthreads import spawn_client_threads
 from .loadsafedb import load_safe_db
 """
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 
@@ -143,7 +147,43 @@ def daemon():
             logger.info(
                 f"Recieved sigterm in child process or fork, exiting. PID: {pid}")
             sys.exit(0)
+
+    def _handle_sigusr1(sig, frame):
+        traceback_file = identifyhome.identify_home() + "/traceback"
+        id2name = dict([(th.ident, th.name) for th in thread_enumerate()])
+        code = []
+        for thread_id, stack in sys._current_frames().items():
+            code.append(
+                "\n# Thread: %s(%d)" %
+                (id2name.get(thread_id, ""), thread_id))
+            for filename, lineno, name, line in traceback.extract_stack(stack):
+                code.append(
+                    'File: "%s", line %d, in %s' % (filename, lineno, name))
+                if line:
+                    code.append("  %s" % (line.strip()))
+        with open(traceback_file, 'w') as tb_f:
+            tb_f.write("\n".join(code))
+        logger.info(
+            f"Wrote traceback of all main process threads to {traceback_file}",
+            terminal=True)
+
+    def _sigusr1_thrower():
+        wait_for_write_pipe = identifyhome.identify_home() + \
+            "/activate-traceback"
+        try:
+            os.mkfifo(wait_for_write_pipe)
+        except FileExistsError:
+            pass
+        with open(wait_for_write_pipe, "r") as f:
+            f.read()
+        os.kill(os.getpid(), signal.SIGUSR1)
+
     signal.signal(signal.SIGTERM, _handle_sig_term)
+    signal.signal(signal.SIGUSR1, _handle_sigusr1)
+
+    Thread(
+        target=_sigusr1_thrower,
+        daemon=True, name="siguser1 wait and throw").start()
 
     # Determine if Onionr is in offline mode.
     # When offline, Onionr can only use LAN and disk transport
@@ -181,6 +221,7 @@ def daemon():
     shared_state.get(serializeddata.SerializedData)
 
     shared_state.add(load_safe_db(config))
+    shared_state.add(PassToSafeDB(shared_state.get_by_string('SafeDB')))
 
     shared_state.share_object()  # share the parent object to the threads
 
@@ -206,6 +247,13 @@ def daemon():
         _setup_online_mode(use_existing_tor, net, security_level)
 
     _show_info_messages()
+
+    with torcontroller.get_controller() as c:
+        try:
+            onionservice.load_services(c)
+        except onionservice.NoServices:
+            pass
+
     logger.info(
         "Onionr daemon is running under " + str(os.getpid()), terminal=True)
     events.event('init', threaded=False, data=shared_state)

@@ -35,6 +35,9 @@ def detect_socket_leaks(socket_event):
     try:
         ip_address = ipaddress.ip_address(ip_address)
     except ValueError:
+        if ip_address == "/":
+            # unix socket
+            return
         logger.warn(f'Conn made to {ip_address} outside of Tor/similar')
         raise \
             NetworkLeak('Conn to host/non local IP, this is a privacy issue!')

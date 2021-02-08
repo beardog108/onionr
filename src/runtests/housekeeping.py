@@ -1,15 +1,14 @@
-import os
-
 from gevent import sleep
 
 from oldblocks import insert
-import logger
+import config
 from coredb.blockmetadb import get_block_list
-from onionrutils import epoch
 
 
 def test_inserted_housekeeping(testmanager):
     """Tests that inserted blocks are proprely deleted"""
+    if config.get('runtests.skip_slow', False):
+        return
     bl = insert('testdata', expire=12)
     wait_seconds = 132  # Wait two minutes plus expire time
     count = 0

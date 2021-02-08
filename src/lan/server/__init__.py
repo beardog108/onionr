@@ -52,6 +52,8 @@ class LANServer:
 
         @app.before_request
         def dns_rebinding_prevention():
+            if not ipaddress.ip_address(request.remote_addr).is_private:
+                abort(403)
             if request.remote_addr in lan_ips or \
                     ipaddress.ip_address(request.remote_addr).is_loopback:
                 if time.time() - _start_time > 600:

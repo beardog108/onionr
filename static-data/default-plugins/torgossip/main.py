@@ -1,14 +1,20 @@
 """
 Onionr - Private P2P Communication
 
-This default plugin allows users to encrypt/decrypt messages without using blocks
+Default plugin which allows users to encrypt/decrypt messages w/o using blocks
 """
+from base64 import b32encode
 import locale
+
+from netcontroller.torcontrol import torcontroller
 locale.setlocale(locale.LC_ALL, '')
 import sys
 import os
+import traceback
 from threading import Thread
+from netcontroller.torcontrol import onionservice
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
+from constants import SERVER_SOCKET, GOSSIP_PORT, HOSTNAME_FILE
 """
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -24,10 +30,45 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 plugin_name = 'torgossip'
-from server import start_server
+
+import logger  # noqa
+
+try:
+    from server import start_server
+    from peerdb import TorGossipPeers
+    from runtest import torgossip_runtest
+except Exception as _:  # noqa
+    logger.error(traceback.format_exc(), terminal=True)
+
 
 def on_init(api, data=None):
     shared_state = data
-    print("starting gossip transport")
+    shared_state.get_by_string(
+        "OnionrRunTestManager").plugin_tests.append(torgossip_runtest)
+
+    shared_state.get(TorGossipPeers)
+
+    hs = ""
+
+    try:
+        with open(HOSTNAME_FILE, "rb") as f:
+            hs = f.read()
+            if not hs:
+                raise FileNotFoundError
+    except FileNotFoundError:
+        with torcontroller.get_controller() as c:
+
+            try:
+                hs = onionservice.run_new_and_store_service(
+                    c, onionservice.OnionServiceTarget(
+                        GOSSIP_PORT, SERVER_SOCKET))
+            except Exception:
+                print(traceback.format_exc())
+                raise
+
+        with open(HOSTNAME_FILE, "wb") as hf:
+            hf.write(hs)
+    
+
     Thread(target=start_server, daemon=True, args=[shared_state]).start()
 
