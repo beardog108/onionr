@@ -27,20 +27,6 @@ if TYPE_CHECKING:
 
 def setup_kv(shared_vars: 'DeadSimpleKV'):
     """Init initial pseudo-globals."""
-    shared_vars.put('plaintextDisabledPeers', {})
-    shared_vars.put('blockQueue', {})
     shared_vars.put('shutdown', False)
-    shared_vars.put('onlinePeers', [])
-    shared_vars.put('offlinePeers', [])
-    shared_vars.put('peerProfiles', [])
-    shared_vars.put('connectTimes', {})
-    shared_vars.put('currentDownloading', [])
-    shared_vars.put('announceCache', {})
-    shared_vars.put('newPeers', [])
-    shared_vars.put('dbTimestamps', {})
-    shared_vars.put('blocksToUpload', [])
-    shared_vars.put('cooldownPeer', {})
-    shared_vars.put('generating_blocks', [])
-    shared_vars.put('lastNodeSeen', None)
     shared_vars.put('startTime', epoch.get_epoch())
     shared_vars.put('isOnline', True)

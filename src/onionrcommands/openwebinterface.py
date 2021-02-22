@@ -27,22 +27,6 @@ from .daemonlaunch import geturl
 """
 
 
-def _tell_if_ui_not_ready():
-    if local_command('/torready') != 'true':
-        logger.warn('The UI is not ready yet, waiting on Tor to start.', terminal=True)
-
-
-def _wait_for_ui_to_be_ready():
-    if config.get('general.offline_mode', False) or \
-        not config.get('transports.tor', True) or \
-            config.get('tor.use_existing_tor'):
-        return
-    _tell_if_ui_not_ready()
-    while local_command('/torready') != 'true':
-        sleep(0.5)
-    logger.info("Tor is ready, opening UI", terminal=True)
-
-
 def get_url() -> str:
     """Build UI URL string and return it."""
     return geturl.get_url(config)
@@ -61,7 +45,6 @@ def open_home():
             'Onionr seems to not be running (could not get api host)',
             terminal=True)
     else:
-        _wait_for_ui_to_be_ready()  # wait for Tor/transports to start
         sleep(3)  # Sleep a little longer to wait for web UI to init some vars it needs
         url = get_url()
         logger.info(

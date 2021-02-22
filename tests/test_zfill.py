@@ -7,9 +7,6 @@ sys.path.append(".")
 sys.path.append("src/")
 from utils import createdirs
 createdirs.create_dirs()
-from onionrcrypto import getourkeypair
-getourkeypair.get_keypair()
-
 from utils import reconstructhash
 
 class ZFill_Hash(unittest.TestCase):

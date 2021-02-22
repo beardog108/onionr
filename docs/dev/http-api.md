@@ -64,18 +64,6 @@ Please note: endpoints that simply provide static web app files are not document
 * /getuptime
     - Methods: GET
     - Returns uptime in seconds
-* /getActivePubkey
-    - Methods: GET
-    - Returns the current active public key in base32 format
-* /getHumanReadable/pubkey
-    - Methods: GET
-    - Echos the specified public key in mnemonic format
-* /insertblock
-    - Methods: POST
-    - Accepts JSON data for creating a new block. 'message' contains the block data, 'to' specifies the peer's public key to encrypt the data to, 'sign' is a boolean for signing the message.
-* /torready
-    - Methods: POST
-    - Returns boolean if Tor is started or not
 
 # Public API
 

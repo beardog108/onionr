@@ -4,7 +4,6 @@ Public is net-facing server meant for other nodes
 Private is meant for controlling and accessing this node
 """
 
-from . import public, private
+from . import private
 
-PublicAPI = public.PublicAPI
 ClientAPI = private.PrivateAPI

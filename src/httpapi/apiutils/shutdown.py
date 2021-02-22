@@ -24,7 +24,6 @@ shutdown_bp = Blueprint('shutdown', __name__)
 
 def shutdown(client_api_inst):
     try:
-        client_api_inst.publicAPI.httpServer.stop()
         client_api_inst.httpServer.stop()
     except AttributeError:
         pass

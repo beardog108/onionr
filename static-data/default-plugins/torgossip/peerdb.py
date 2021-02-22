@@ -6,6 +6,7 @@ from base64 import b32decode
 from struct import unpack, pack
 from time import time
 from typing import List
+import binascii
 
 from utils.identifyhome import identify_home
 import safedb
@@ -37,6 +38,11 @@ class TorGossipPeers:  # name it this way to avoid collisions in SharedState
         # strip .onion and b32decode peer address for lower database mem usage
         if len(peer) == 62:  # constant time
             return b32decode(peer[:-6])  # O(N)
+        else:
+            try:
+                return b32decode(peer.upper())
+            except binascii.Error:
+                pass
         return peer
 
     def _pack_and_store_info(self, peer, new_score=None, new_seen=None):
@@ -60,9 +66,10 @@ class TorGossipPeers:  # name it this way to avoid collisions in SharedState
         if peer == b'enc':
             peer = self.db.db_conn.nextkey(peer)
 
-        assert len(peer) == 34
         if not peer:
             return []
+
+        assert len(peer) == 35
 
         top = [(peer, self.db.get(peer))]
 
@@ -72,6 +79,7 @@ class TorGossipPeers:  # name it this way to avoid collisions in SharedState
                 break
             if peer == b"enc":
                 continue
+            # score, seen is data
             peer_data = self.db.get(peer)
             overwrite = None
 

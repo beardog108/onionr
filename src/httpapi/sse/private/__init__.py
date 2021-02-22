@@ -9,11 +9,7 @@ from gevent import sleep
 import gevent
 import ujson
 
-from oldblocks.onionrblockapi import Block
-from coredb.dbfiles import block_meta_db
-from coredb.blockmetadb import get_block_list
 from onionrutils.epoch import get_epoch
-from onionrstatistics.transports.tor import TorStats
 from .. import wrapper
 """
     This program is free software: you can redistribute it and/or modify
@@ -42,37 +38,3 @@ def stream_hello():
             yield "hello\n\n"
             sleep(1)
     return SSEWrapper.handle_sse_request(print_hello)
-
-
-@private_sse_blueprint.route('/torcircuits')
-def stream_tor_circuits():
-    tor_stats = g.too_many.get(TorStats)
-    def circuit_stat_stream():
-        while True:
-            yield "data: " + tor_stats.get_json() + "\n\n"
-            sleep(10)
-    return SSEWrapper.handle_sse_request(circuit_stat_stream)
-
-@private_sse_blueprint.route('/recentblocks')
-def stream_recent_blocks():
-    def _compile_json(b_list):
-        js = {}
-        block_obj = None
-        for block in b_list:
-            block_obj = Block(block)
-            if block_obj.isEncrypted:
-                js[block] = 'encrypted'
-            else:
-                js[block] = Block(block).btype
-        return ujson.dumps({"blocks": js}, reject_bytes=True)
-
-    def _stream_recent():
-        last_time = Path(block_meta_db).stat().st_ctime
-        while True:
-            if Path(block_meta_db).stat().st_ctime != last_time:
-                last_time = Path(block_meta_db).stat().st_ctime
-                yield "data: " + _compile_json(get_block_list(get_epoch() - 5)) + "\n\n"
-            else:
-                yield "data: none" + "\n\n"
-            sleep(5)
-    return SSEWrapper.handle_sse_request(_stream_recent)

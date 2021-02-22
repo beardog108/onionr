@@ -2,6 +2,8 @@
 
 view and interact with onionr sites
 """
+import traceback
+
 from flask import Blueprint, Response, request, abort, g
 import ujson as json
 """
@@ -33,9 +35,10 @@ def serialized(name: str) -> Response:
                 resp = str(resp)
             return Response(resp, content_type='application/octet-stream')
         except Exception as e:
-            return Response(repr(e), content_type='text/plain', status=500)
+            return Response(traceback.format_exc(e), content_type='text/plain', status=500)
 
     initial = g.too_many.get_by_string(name.split('.')[0])
+    print('initial', initial)
     for c, i in enumerate(name.split('.')):
         if i and c != 0:
             attr = getattr(initial, i)
@@ -44,11 +47,16 @@ def serialized(name: str) -> Response:
         try:
             js = request.get_json(force=True)
             print('json', js, type(js))
-            data = json.loads(js)
-            args = data['args']
-            del data['args']
+            if not isinstance(js, dict):
+                data = json.loads(js)
+                args = data['args']
+                del data['args']
+            else:
+                data = js
+                args = js['args']
+                del js['args']
         except (TypeError, ValueError) as e:
-            print(repr(e))
+            print(traceback.format_exc())
             data = {}
             args = []
         print('data', data)

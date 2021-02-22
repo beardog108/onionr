@@ -2,6 +2,7 @@
 
 This file handles all incoming http requests to the client, using Flask
 """
+import http
 from typing import Dict
 import hmac
 
@@ -16,7 +17,6 @@ import logger
 from etc import waitforsetvar
 from . import register_private_blueprints
 import config
-from .. import public
 """
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ class PrivateAPI:
         self.httpServer = ''
 
         self.queueResponse = {}
-        self.get_block_data = httpapi.apiutils.GetBlockData(self)
+
         register_private_blueprints.register_private_blueprints(self, app)
         httpapi.load_plugin_blueprints(app)
         self.app = app
@@ -77,16 +77,11 @@ class PrivateAPI:
         """Start client gevent API web server with flask client app."""
         waitforsetvar.wait_for_set_var(self, "_too_many")
         fd_handler = httpapi.fdsafehandler.FDSafeHandler
-        self.publicAPI = self._too_many.get(  # pylint: disable=E1101
-            public.PublicAPI)
+        self._too_many.add(httpapi.wrappedfunctions.SubProcVDFGenerator(self._too_many))
         self.httpServer = WSGIServer((self.host, self.bindPort),
                                      self.app, log=None,
                                      handler_class=fd_handler)
         self.httpServer.serve_forever()
-
-    def setPublicAPIInstance(self, inst):
-        """Dynamically set public API instance."""
-        self.publicAPI = inst
 
     def validateToken(self, token):
         """Validate that the client token matches the given token.
@@ -110,10 +105,3 @@ class PrivateAPI:
                 # Don't error on race condition with startup
                 pass
 
-    def getBlockData(self, bHash, decrypt=False, raw=False,
-                     headerOnly=False) -> bytes:
-        """Returns block data bytes."""
-        return self.get_block_data.get_block_data(bHash,
-                                                  decrypt=decrypt,
-                                                  raw=raw,
-                                                  headerOnly=headerOnly)

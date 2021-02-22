@@ -15,7 +15,6 @@ import filepaths
 
 
 run_file_paths = [
-    filepaths.public_API_host_file,
     filepaths.private_API_host_file,
     filepaths.daemon_mark_file,
     filepaths.lock_file]

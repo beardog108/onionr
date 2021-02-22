@@ -9,7 +9,6 @@ from gevent import sleep
 from psutil import Process
 import ujson as json
 
-from coredb import blockmetadb
 from utils.sizeutils import size, human_size
 from utils.identifyhome import identify_home
 from onionrutils.epoch import get_epoch
@@ -60,9 +59,6 @@ class SerializedData:
         [connected.append(x)
             for x in kv.get('onlinePeers') if x not in connected]
         stats['uptime'] = get_epoch() - kv.get('startTime')
-        stats['connectedNodes'] = '\n'.join(connected)
-        stats['blockCount'] = len(blockmetadb.get_block_list())
-        stats['blockQueueCount'] = len(kv.get('blockQueue'))
         stats['threads'] = proc.num_threads()
         stats['ramPercent'] = proc.memory_percent()
         stats['fd'] = get_open_files()

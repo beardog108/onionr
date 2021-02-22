@@ -4,11 +4,7 @@ This module defines commands to show stats/details about the local node
 """
 import os
 import logger
-from oldblocks import onionrblacklist
-from onionrutils import mnemonickeys
-from utils import sizeutils, gethostname, getconsolewidth, identifyhome
-from coredb import blockmetadb, keydb
-import onionrcrypto
+from utils import sizeutils, getconsolewidth, identifyhome
 import config
 from etc import onionrvalues
 from filepaths import lock_file
@@ -43,9 +39,7 @@ def show_stats():
     """Print/log statistic info about our Onionr install."""
     try:
         # define stats messages here
-        totalBlocks = len(blockmetadb.get_block_list())
         home = identifyhome.identify_home()
-        totalBanned = len(onionrblacklist.OnionrBlackList().getList())
 
         messages = {
             # info about local client
@@ -58,8 +52,6 @@ def show_stats():
 
             # file and folder size stats
             'div1': True,  # this creates a solid line across the screen, a div
-            'Total Block Size':
-            sizeutils.human_size(sizeutils.size(home + 'blocks/')),
             'Total Plugin Size':
             sizeutils.human_size(sizeutils.size(home + 'plugins/')),
             'Log File Size':
@@ -67,13 +59,9 @@ def show_stats():
 
             # count stats
             'div2': True,
-            'Known Peers (nodes)':
-            str(max(len(keydb.listkeys.list_adders()) - 1, 0)),
             'Enabled Plugins':
             str(len(config.get('plugins.enabled', list()))) + ' / ' +
-            str(len(os.listdir(home + 'plugins/'))),
-            'Stored Blocks': str(totalBlocks),
-            'Deleted Blocks': str(totalBanned)
+            str(len(os.listdir(home + 'plugins/')))
         }
 
         # color configuration
@@ -134,10 +122,7 @@ def show_details():
         active user ID in mnemonic form
     """
     details = {
-        'Data directory': identifyhome.identify_home(),
-        'Node Address': gethostname.get_hostname(),
-        'Public Key': onionrcrypto.pub_key.replace('=', ''),
-        'Human-readable Public Key': mnemonickeys.get_human_readable_ID()
+        'Data directory': identifyhome.identify_home()
     }
 
     for detail in details:

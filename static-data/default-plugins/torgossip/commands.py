@@ -23,7 +23,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 class GossipCommands(IntEnum):
     PING = 1,
-    CHECK_HAS_BLOCK = 2,
+    CHECK_HAS_BLOCK = 2,  # Returns 1 if has block, 2 if not
     LIST_BLOCKS_BY_TYPE = 3,
     LIST_BLOCKS_BY_TYPE_OFFSET = 4,
     GET_BLOCK = 5,

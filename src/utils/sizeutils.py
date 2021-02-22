@@ -2,7 +2,7 @@
 
 size related utilities
 """
-import sqlite3, os
+import os
 from onionrutils import stringvalidators
 """
     This program is free software: you can redistribute it and/or modify

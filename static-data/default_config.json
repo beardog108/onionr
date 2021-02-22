@@ -11,20 +11,9 @@
         "bind_address": "",
         "dev_mode": false,
         "display_header": true,
-        "ephemeral_tunnels": false,
-        "hide_created_blocks": true,
-        "insert_deniable_blocks": true,
-        "max_block_age": 2678400,
-        "minimum_block_pow": 5,
-        "minimum_send_pow": 5,
-        "public_key": "",
-        "random_bind_ip": true,
         "security_level": 0,
         "show_notifications": true,
-        "store_plaintext_blocks": true,
-        "upload_mixing": false,
-        "use_bootstrap_list": true,
-        "use_subprocess_pow_if_possible": true
+        "store_plaintext_blocks": true
     },
     "log": {
         "console": {
@@ -54,28 +43,6 @@
     },
     "security": {
         "encrypt_database": false
-    },
-    "statistics": {
-        "i_dont_want_privacy": false,
-        "server": ""
-    },
-    "timers": {
-        "getBlocks": 10,
-        "lookupBlocks": 25
-    },
-    "tor": {
-        "bridge_fingerprint": "",
-        "bridge_ip": "",
-        "existing_control_password": "",
-        "existing_control_port": 0,
-        "existing_socks_port": 0,
-        "use_bridge": false,
-        "use_existing_tor": false
-    },
-    "transports": {
-        "lan": true,
-        "sneakernet": true,
-        "tor": true
     },
     "ui": {
         "animated_background": true,

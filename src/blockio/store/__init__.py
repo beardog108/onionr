@@ -23,7 +23,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 
-def store_block(block: 'Kasten', safe_db: 'SafeDB'):
+def store_block(block: 'Kasten', safe_db: 'SafeDB', own_block=False):
     # This does not handle validation of blocks
     # safe_db is initialized by the daemon when starting normally
     # so any other commands need to initialize it seperately

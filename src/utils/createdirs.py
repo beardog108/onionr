@@ -29,9 +29,7 @@ def create_dirs():
     """Create onionr data-related directories in
     order of the hardcoded list below,
     then trigger creation of DBs"""
-    gen_dirs = [home, filepaths.block_data_location,
-                filepaths.contacts_location, filepaths.export_location,
-                filepaths.master_db_location]
+    gen_dirs = [home, filepaths.block_data_location]
     for path in gen_dirs:
         if not os.path.exists(path):
             os.makedirs(path)
@@ -42,11 +40,3 @@ def create_dirs():
                     " already exists and is not owned by the same user")
 
     os.chmod(home, stat.S_IRWXU)
-
-    from onionrsetup import dbcreator
-
-    for db in dbcreator.create_funcs:
-        try:
-            db()
-        except FileExistsError:
-            pass

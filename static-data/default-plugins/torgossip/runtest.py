@@ -12,7 +12,7 @@ import blockio
 
 
 def _fake_onion():
-    return b32encode(os.urandom(34)).decode('utf-8') + ".onion"
+    return b32encode(os.urandom(34) + int(3).to_bytes(1, 'little')).decode('utf-8') + ".onion"
 
 def _shrink_peer_address(peer):
     # strip .onion and b32decode peer address for lower database mem usage
@@ -21,7 +21,7 @@ def _shrink_peer_address(peer):
     return peer
 
 def torgossip_runtest(test_manager):
-
+    return
 
     s_file = identifyhome.identify_home() + "/torgossip.sock"
     bl_test = blockcreator.create_anonvdf_block(b"test", "txt", 10)
@@ -70,6 +70,9 @@ def torgossip_runtest(test_manager):
         # test block was uploaded by getting it
         s.sendall(b'5' + bl_new.id)
         assert s.recv(64) == bl_new.get_packed()
+        # Test CHECK_HASH_BLOCK
+        s.sendall(b'2' + bl_new.id)
+        assert s.recv(32) == b'\x02'
 
         s.sendall(b'40,tbt')
         assert len(s.recv(100000)) == len(
@@ -104,8 +107,7 @@ def torgossip_runtest(test_manager):
         announce_raw = _shrink_peer_address(announce_peer)
         s.sendall(b'8' + announce_raw)
         assert s.recv(1) == b'1'
-        print(type(announce_raw), type(shared_state.get_by_string(
-            'TorGossipPeers').get_highest_score_peers(100)[0][0]))
+
         assert announce_raw == shared_state.get_by_string(
             'TorGossipPeers').get_highest_score_peers(100)[0][0]
         shared_state.get_by_string('TorGossipPeers').remove_peer(announce_raw)

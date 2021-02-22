@@ -11,6 +11,7 @@ import unittest
 import time
 from utils import identifyhome, createdirs
 from onionrsetup import setup_config, setup_default_plugins
+import random
 
 createdirs.create_dirs()
 setup_config()
@@ -24,7 +25,8 @@ from utils import identifyhome
 import safedb
 import blockio
 from blockio.clean.cleanblocklistentries import clean_block_list_entries
-from blockio import subprocgenerate
+from blockio import subprocgenerate, subprocvalidate
+
 
 def _remove_db(path):
     try:
@@ -34,6 +36,14 @@ def _remove_db(path):
 
 
 class TestBlockIO(unittest.TestCase):
+
+    def test_subproc_validate(self):
+        bl = blockcreator.create_anonvdf_block(b"hello" + int(3).to_bytes(1, "big"), b"txt" + int(3).to_bytes(1, "big"), 5)
+        invalid = os.urandom(64)
+        subprocvalidate.vdf_block(bl.id, bl.get_packed())
+
+        self.assertRaises(anonvdf.InvalidID, subprocvalidate.vdf_block, invalid, bl.get_packed())
+
 
     def test_subproc_generate(self):
         db_file = identifyhome.identify_home() + 'test.db'

@@ -1,9 +1,9 @@
-"""Onionr - Private P2P Communication.
-
-Return the client api server address and port, which is usually random
 """
-import filepaths
-import config
+Onionr - Private P2P Communication.
+
+get an open port
+"""
+import socket
 """
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,19 +20,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 
-def get_client_API_server():
-    config.reload()
-    retData = ''
-    getconf = lambda: config.get('client.client.port')
-    port = getconf()
-    if port is None:
-        config.reload()
-        port = getconf()
-    try:
-        with open(filepaths.private_API_host_file, 'r') as host:
-            hostname = host.read()
-    except FileNotFoundError:
-        raise FileNotFoundError
-    else:
-        retData += '%s:%s' % (hostname, port)
-    return retData
+def get_open_port():
+    # taken from (but modified) https://stackoverflow.com/a/2838309 by https://stackoverflow.com/users/133374/albert ccy-by-sa-3 https://creativecommons.org/licenses/by-sa/3.0/
+    # changes from source: import moved to top of file, bind specifically to localhost
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("127.0.0.1", 0))
+    s.listen(1)
+    port = s.getsockname()[1]
+    s.close()
+    return port

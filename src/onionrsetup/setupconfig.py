@@ -9,23 +9,22 @@ import ujson as json
 
 import config
 import logger
-import netcontroller
 from etc import onionrvalues
 from logger.settings import *
-from utils import readstatic
+from utils import readstatic, getopenport
 """
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 
@@ -38,6 +37,7 @@ def setup_config():
         config.save()
 
     config.reload()
+    random_port = getopenport.get_open_port()
 
     settings = 0b000
     if config.get('log.console.color', True):
@@ -80,11 +80,8 @@ def setup_config():
 
     if type(config.get('client.webpassword')) is type(None):
         config.set('client.webpassword', base64.b16encode(os.urandom(32)).decode('utf-8'), savefile=True)
-    if type(config.get('client.client.port')) is type(None):
-        randomPort = netcontroller.get_open_port()
-        config.set('client.client.port', randomPort, savefile=True)
-    if type(config.get('client.public.port')) is type(None):
-        randomPort = netcontroller.get_open_port()
-        config.set('client.public.port', randomPort, savefile=True)
+
+        config.set('client.client.port', random_port, savefile=True)
+
     if type(config.get('client.api_version')) is type(None):
         config.set('client.api_version', onionrvalues.API_VERSION, savefile=True)

@@ -2,7 +2,6 @@
 
 Gracefully stop Onionr daemon
 """
-import sqlite3
 import os
 
 from gevent import spawn
@@ -10,7 +9,6 @@ from gevent import spawn
 from onionrplugins import events
 from onionrutils import localcommand
 import logger
-from netcontroller import NetController
 import config
 """
     This program is free software: you can redistribute it and/or modify
@@ -43,17 +41,11 @@ def kill_daemon():
         pass
 
     events.event('daemon_stop')
-    net = NetController(config.get('client.port', 59496))
-    try:
-        spawn(
-            localcommand.local_command,
-            '/shutdownclean'
-            ).get(timeout=5)
-    except sqlite3.OperationalError:
-        pass
 
-    net.killTor()
-
+    spawn(
+        localcommand.local_command,
+        '/shutdownclean'
+        ).get(timeout=5)
 
 kill_daemon.onionr_help = "Gracefully stops the "  # type: ignore
 kill_daemon.onionr_help += "Onionr API servers"  # type: ignore

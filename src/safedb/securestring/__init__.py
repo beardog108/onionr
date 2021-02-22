@@ -67,8 +67,7 @@ def protect_string(plaintext: Union[bytes, bytearray, str]) -> bytes:
         logger.warn("Error when protecting string for database", terminal=True)
         for line in res[1].decode('utf-8').split('\n'):
             logger.error(line, terminal=True)
-        raise subprocess.CalledProcessError(
-            "Error protecting string")
+        raise subprocess.CalledProcessError
 
 
 def unprotect_string(ciphertext: Union[bytes, bytearray]) -> bytes:
@@ -88,5 +87,4 @@ def unprotect_string(ciphertext: Union[bytes, bytearray]) -> bytes:
             "Error when decrypting ciphertext from database", terminal=True)
         for line in res[1].decode('utf-8').split('\n'):
             logger.error(line, terminal=True)
-        raise subprocess.CalledProcessError(
-            "Error unprotecting string")
+        raise subprocess.CalledProcessError

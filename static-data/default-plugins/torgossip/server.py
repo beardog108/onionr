@@ -10,11 +10,16 @@ import selectors
 import socket
 from time import sleep
 
+from kasten.main import Kasten
+from onionrblocks.generators.anonvdf import AnonVDFGenerator
+from blockio import store
+
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 from commands import GossipCommands  # noqa
 import commandhandlers
 
 from constants import SERVER_SOCKET
+from blockio import subprocgenerate, store_block
 """
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,6 +38,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 def start_server(shared_state):
 
+    bl = subprocgenerate.vdf_block(b"yep" + os.urandom(5), "txt", 6000)
+    store_block(Kasten(bl.id, bl.get_packed(), generator=AnonVDFGenerator), shared_state.get_by_string('SafeDB'))
+    print(bl.id)
+
     sel = selectors.DefaultSelector()
 
     def accept(sock, mask):
@@ -49,6 +58,7 @@ def start_server(shared_state):
 
     def read(conn, mask):
         data = conn.recv(1000)  # Should be ready
+        print('recd', data)
         cmd = None
         if data:
             try:

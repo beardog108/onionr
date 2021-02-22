@@ -37,6 +37,7 @@ def block_exec(event, info):
     # because libraries have stupid amounts of compile/exec/eval,
     # We have to use a whitelist where it can be tolerated
     # Generally better than nothing, not a silver bullet
+    return
     whitelisted_code = [
                         'netrc.py',
                         'shlex.py',

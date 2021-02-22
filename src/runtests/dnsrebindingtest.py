@@ -4,7 +4,7 @@ Test apis for dns rebinding
 """
 import config
 import requests
-from filepaths import private_API_host_file, public_API_host_file
+from filepaths import private_API_host_file
 import logger
 """
     This program is free software: you can redistribute it and/or modify
@@ -32,15 +32,6 @@ def test_dns_rebinding(test_manager):
         raise ValueError('DNS rebinding failed')
     logger.info('It is normal to see 403 errors right now', terminal=True)
 
-    if config.get('general.security_level', 0) > 0 or not config.get('transports.tor', True):
-        return
-    public_api_port = config.get('client.public.port')
-    f = ''
-    with open(public_API_host_file, 'r') as f:
-        host = f.read()
-
-    if requests.get(f'http://{host}:{public_api_port}/ping', headers={'host': 'example.com'}) == 'pong!':
-        raise ValueError('DNS rebinding failed')
     logger.info('It is normal to see 403 errors right now', terminal=True)
 
 

@@ -7,8 +7,6 @@ TEST_DIR = 'testdata/%s-%s' % (uuid.uuid4(), os.path.basename(__file__)) + '/'
 os.environ["ONIONR_HOME"] = TEST_DIR
 from utils import createdirs
 createdirs.create_dirs()
-from onionrcrypto import getourkeypair
-getourkeypair.get_keypair()
 from etc import waitforsetvar
 
 def set_test_var_delay(obj, delay=0):

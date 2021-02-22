@@ -6,7 +6,6 @@ import os
 import shutil
 
 from onionrutils import localcommand
-from coredb import dbfiles
 import filepaths
 from onionrplugins import onionrevents
 import logger
@@ -44,7 +43,6 @@ def soft_reset():
         return
     path = filepaths.block_data_location
     shutil.rmtree(path)
-    _ignore_not_found_delete(dbfiles.block_meta_db)
     _ignore_not_found_delete(filepaths.upload_list)
     _ignore_not_found_delete(filepaths.usage_file)
     onionrevents.event('softreset')
